@@ -1,8 +1,9 @@
-# <img src="Logo.png" alt="Runarok Logo" width="50" style="vertical-align: middle; "> My GitHub
+# <img src="Logo.png" alt="Runarok Logo" width="50" style="vertical-align: middle;"> My GitHub
 
 Welcome to my GitHub profile! I'm a coder based in Bengaluru, Karnataka, India, with a passion for manga, anime, music, and movies. Here, you'll find a collection of my projects, including games and various web experiments.
 
 ## About Me
+
 I enjoy coding and have experience in languages such as C, C++, and Python. Currently, I primarily work with HTML, CSS, and Java. Most of my projects are built with basic HTML coding that I've learned along the way, often utilizing online resources and tools like ChatGPT. I want to be clear: I don’t intend to present myself as a great coder; my work is mainly basic, and anyone interested is welcome to use and improve upon it. Coding has been a passion of mine, and I've invested a lot of time into these projects.
 
 ## Meaning Behind My Name
@@ -19,7 +20,7 @@ I enjoy coding and have experience in languages such as C, C++, and Python. Curr
 
 ---
 
-# Socials 
+# Socials
 To be updated.
 
 ---
@@ -28,3 +29,7 @@ To be updated.
 *I occasionally draw inspiration from various sources online to enhance my projects. I'm always ready to remove any content that may seem like I copied code, although I assure you I never did.*
 
 ---
+
+## GitHub Pages Link
+You can explore all my projects and web experiments on my GitHub Pages here:  
+[Runarok GitHub Page](https://runarok.github.io/Runarok/)
