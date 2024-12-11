@@ -56,23 +56,32 @@
       background: #444;
     }
 
+    .button .label {
+      flex: 3;
+      padding: 0 15px;
+      font-size: 1rem;
+      text-align: left;
+    }
+
     .button .left,
     .button .right {
       flex: 1;
       text-align: center;
       cursor: pointer;
+      padding: 10px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      margin: 0 5px;
     }
 
     .button .left:hover {
-      background: #00ffff;
+      background: #00cccc;
       color: #1e1e1e;
-      border-radius: 8px 0 0 8px;
     }
 
     .button .right:hover {
       background: #00ffff;
       color: #1e1e1e;
-      border-radius: 0 8px 8px 0;
     }
 
     .footer {
@@ -102,12 +111,9 @@
   <!-- Footer -->
   <div class="footer">
     <p>
-      Click the <strong>left half</strong> of a button to open the repository on 
+      Click <strong>Pages</strong> to visit the project live on 
+      <a href="https://pages.github.com" target="_blank">GitHub Pages</a>, or <strong>Repo</strong> to view it on 
       <a href="https://github.com" target="_blank">GitHub</a>.
-    </p>
-    <p>
-      Click the <strong>right half</strong> of a button to open the project's live 
-      <a href="https://pages.github.com" target="_blank">GitHub Pages</a> site.
     </p>
     <p>Made by <a href="https://github.com/Runarok">Runarok</a></p>
   </div>
@@ -133,10 +139,15 @@
           const button = document.createElement('div');
           button.classList.add('button');
 
+          // Label for the repository name
+          const label = document.createElement('div');
+          label.classList.add('label');
+          label.textContent = repo.name;
+
           // Left side: GitHub repo link
           const left = document.createElement('div');
           left.classList.add('left');
-          left.textContent = `GitHub: ${repo.name}`;
+          left.textContent = 'Repo';
           left.onclick = () => {
             window.open(repo.html_url, '_blank'); // Open GitHub repository
           };
@@ -144,13 +155,14 @@
           // Right side: GitHub Pages link
           const right = document.createElement('div');
           right.classList.add('right');
-          right.textContent = `Pages: ${repo.name}`;
+          right.textContent = 'Pages';
           right.onclick = () => {
             const pagesUrl = `https://${repo.owner.login}.github.io/${repo.name}/`;
             window.open(pagesUrl, '_blank'); // Open GitHub Pages
           };
 
-          // Append left and right sections to the button
+          // Append label and buttons to the button container
+          button.appendChild(label);
           button.appendChild(left);
           button.appendChild(right);
 
