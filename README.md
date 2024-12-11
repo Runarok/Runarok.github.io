@@ -21,7 +21,9 @@ I enjoy coding and have experience in languages such as C, C++, and Python. Curr
 ---
 
 # Socials
-To be updated.
+
+You can explore all my projects and web experiments on my GitHub Pages here:  
+[Runarok GitHub Page](https://runarok.github.io/Runarok/)
 
 ---
 
@@ -30,6 +32,4 @@ To be updated.
 
 ---
 
-## GitHub Pages Link
-You can explore all my projects and web experiments on my GitHub Pages here:  
-[Runarok GitHub Page](https://runarok.github.io/Runarok/)
+
