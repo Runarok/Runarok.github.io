@@ -113,17 +113,27 @@
   </div>
 
   <script>
-    // Fetching the repositories from Runarok's GitHub account
+    // Fetching repositories from the GitHub API
     fetch('https://api.github.com/users/Runarok/repos')
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('GitHub API request failed');
+        }
+        return response.json();
+      })
       .then(data => {
         const menu = document.getElementById('menu');
+        if (data.length === 0) {
+          menu.innerHTML = '<p>No public repositories found.</p>';
+          return;
+        }
+
         data.forEach(repo => {
           // Create button container
           const button = document.createElement('div');
           button.classList.add('button');
 
-          // Create left and right clickable areas
+          // Left side: GitHub repo link
           const left = document.createElement('div');
           left.classList.add('left');
           left.textContent = `GitHub: ${repo.name}`;
@@ -131,6 +141,7 @@
             window.open(repo.html_url, '_blank'); // Open GitHub repository
           };
 
+          // Right side: GitHub Pages link
           const right = document.createElement('div');
           right.classList.add('right');
           right.textContent = `Pages: ${repo.name}`;
@@ -147,19 +158,10 @@
           menu.appendChild(button);
         });
       })
-      .catch(error => console.error('Error fetching repositories:', error));
-
-        // Add event listener for the "G" or "g" key to open GitHub profile
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'G' || event.key === 'g') {
-        window.open('https://github.com/Runarok', '_blank');
-      }
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 't' || event.key === 'T') {
-        window.open('https://github.com/TempestAethel/', '_blank');
-      }
-      
+      .catch(error => {
+        console.error('Error fetching repositories:', error);
+        document.getElementById('menu').innerHTML = '<p>Error loading repositories. Please try again later.</p>';
+      });
   </script>
 </body>
 </html>
