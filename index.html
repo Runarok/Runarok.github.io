@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="icon" href="Logo.png" type="image/png">
+  <link rel="icon" href="TA.png" type="image/png">
   <title>GitHub Menu</title>
   <style>
     /* General reset */
@@ -101,18 +101,36 @@
   <a href="info.html" class="info-button" title="About Me">i</a>
   
   <!-- Page Title -->
-  <h1>TempestAethel's GitHub Menu</h1>
+  <h1>Runarok's GitHub Menu</h1>
 
   <!-- GitHub Menu Links -->
-  <div class="menu">
-    <a href="https://tempestaethel.github.io/GenAI/">GenAI - Games and Codes</a>
-    <a href="https://github.com/TempestAethel/File-Reserve">File Reserve (Public)</a>
-    <a href="https://github.com/TempestAethel/File-Reserve-Private">File Reserve (Private)</a>
-  </div>
+  <div class="menu" id="menu"></div>
 
   <!-- Footer -->
   <div class="footer">
-    <p>Made by <a href="https://github.com/TempestAethel">TempestAethel</a></p>
+    <p>Made by <a href="https://github.com/Runarok">Runarok</a></p>
   </div>
+
+  <script>
+    // Fetching the repositories from Runarok's GitHub account
+    fetch('https://api.github.com/users/Runarok/repos')
+      .then(response => response.json())
+      .then(data => {
+        const menu = document.getElementById('menu');
+        data.forEach(repo => {
+          const repoLink = document.createElement('a');
+          repoLink.textContent = repo.name;
+
+          // Check if the repository has a GitHub Pages URL
+          const githubPagesUrl = `https://${repo.owner.login}.github.io/${repo.name}/`;
+          const repoUrl = repo.homepage ? repo.homepage : repo.html_url;
+
+          // Set the link to either the GitHub Pages URL or GitHub repository URL
+          repoLink.href = githubPagesUrl.startsWith('http') ? githubPagesUrl : repoUrl;
+          menu.appendChild(repoLink);
+        });
+      })
+      .catch(error => console.error('Error fetching repositories:', error));
+  </script>
 </body>
 </html>
