@@ -14,75 +14,91 @@
     }
 
     body {
-      font-family: "Roboto", Arial, sans-serif;
-      background-color: #121212;
-      color: #ffffff;
+      font-family: "Inter", Arial, sans-serif;
+      background-color: #181818;
+      color: #f0f0f0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
       padding: 20px;
     }
 
     h1 {
       margin-bottom: 30px;
-      font-size: 2.5rem;
-      color: #00e6e6;
+      font-size: 2.2rem;
+      color: #00c9c9;
       text-align: center;
+      letter-spacing: 1px;
     }
 
     .menu {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 15px;
       width: 100%;
       max-width: 700px;
     }
 
-    .button {
+    .repo-container {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #1e1e1e;
+      background: #202020;
       padding: 15px 20px;
-      border-radius: 8px;
-      font-size: 1rem;
+      border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
       transition: transform 0.2s ease, box-shadow 0.3s ease;
     }
 
-    .button:hover {
+    .repo-container:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
     }
 
-    .button .label {
-      flex-grow: 2;
+    .repo-name {
       font-size: 1.2rem;
-      font-weight: bold;
-      color: #00e6e6;
+      font-weight: 600;
+      color: #00e0e0;
+      text-align: left;
+      flex-grow: 1;
     }
 
-    .button .left,
-    .button .right {
+    .repo-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .repo-button {
+      padding: 8px 15px;
+      font-size: 0.95rem;
+      color: #f0f0f0;
       background: #333;
-      color: #ffffff;
       border: none;
-      padding: 10px 15px;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 0.9rem;
       transition: background 0.3s ease, transform 0.2s ease;
     }
 
-    .button .left:hover {
-      background: #00cccc;
+    .repo-button:hover {
       transform: translateY(-2px);
     }
 
-    .button .right:hover {
-      background: #00ffff;
-      transform: translateY(-2px);
+    .repo-button.repo {
+      background: #444;
+    }
+
+    .repo-button.repo:hover {
+      background: #0077cc;
+    }
+
+    .repo-button.pages {
+      background: #444;
+    }
+
+    .repo-button.pages:hover {
+      background: #00cccc;
     }
 
     .footer {
@@ -93,7 +109,7 @@
     }
 
     .footer a {
-      color: #00ffff;
+      color: #00cccc;
       text-decoration: none;
     }
 
@@ -134,38 +150,43 @@
 
         data.forEach(repo => {
           // Create container for each repository
-          const button = document.createElement('div');
-          button.classList.add('button');
+          const container = document.createElement('div');
+          container.classList.add('repo-container');
 
           // Repository name
-          const label = document.createElement('div');
-          label.classList.add('label');
-          label.textContent = repo.name;
+          const name = document.createElement('div');
+          name.classList.add('repo-name');
+          name.textContent = repo.name;
+
+          // Buttons container
+          const actions = document.createElement('div');
+          actions.classList.add('repo-actions');
 
           // GitHub repository button
-          const left = document.createElement('button');
-          left.classList.add('left');
-          left.textContent = 'Repo';
-          left.onclick = () => {
+          const repoButton = document.createElement('button');
+          repoButton.classList.add('repo-button', 'repo');
+          repoButton.textContent = 'Repo';
+          repoButton.onclick = () => {
             window.open(repo.html_url, '_blank');
           };
 
           // GitHub Pages button
-          const right = document.createElement('button');
-          right.classList.add('right');
-          right.textContent = 'Pages';
-          right.onclick = () => {
+          const pagesButton = document.createElement('button');
+          pagesButton.classList.add('repo-button', 'pages');
+          pagesButton.textContent = 'Pages';
+          pagesButton.onclick = () => {
             const pagesUrl = `https://${repo.owner.login}.github.io/${repo.name}/`;
             window.open(pagesUrl, '_blank');
           };
 
-          // Append all elements to the container
-          button.appendChild(label);
-          button.appendChild(left);
-          button.appendChild(right);
+          // Append buttons to actions and everything to the container
+          actions.appendChild(repoButton);
+          actions.appendChild(pagesButton);
+          container.appendChild(name);
+          container.appendChild(actions);
 
           // Append the container to the menu
-          menu.appendChild(button);
+          menu.appendChild(container);
         });
       })
       .catch(error => {
