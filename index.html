@@ -126,8 +126,8 @@
   <div class="footer">
     <p>
       Click <strong>Repo</strong> to view the repository on 
-      <a href="https://github.com" target="_blank">GitHub</a>, or <strong>Pages</strong> to visit the live site on 
-      <a href="https://pages.github.com" target="_blank">GitHub Pages</a>.
+      <a href="https://github.com" target="_self">GitHub</a>, or <strong>Pages</strong> to visit the live site on 
+      <a href="https://pages.github.com" target="_self">GitHub Pages</a>.
     </p>
     <p>Made with ❤️ by <a href="https://github.com/Runarok">Runarok</a></p>
   </div>
@@ -167,7 +167,7 @@
           repoButton.classList.add('repo-button', 'repo');
           repoButton.textContent = 'Repo';
           repoButton.onclick = () => {
-            window.open(repo.html_url, '_blank');
+            window.open(repo.html_url, '_self');
           };
 
           // GitHub Pages button
@@ -176,7 +176,7 @@
           pagesButton.textContent = 'Pages';
           pagesButton.onclick = () => {
             const pagesUrl = `https://${repo.owner.login}.github.io/${repo.name}/`;
-            window.open(pagesUrl, '_blank');
+            window.open(pagesUrl, '_self');
           };
 
           // Append buttons to actions and everything to the container
