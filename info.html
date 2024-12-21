@@ -76,6 +76,24 @@
       background: #00ffff;
       color: #1e1e1e;
     }
+
+    /* Centering stats section */
+    .stats-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 40px;
+    }
+
+    .stats-section img {
+      margin: 10px;
+    }
+
+    .badges img {
+      margin: 5px;
+    }
   </style>
 </head>
 <body>
@@ -105,5 +123,51 @@
   <h2>Explore My Repositories</h2>
   <p>Click below to see all of my repositories:</p>
   <a href="index.html" style="color: #00ffff;">Go to My Repositories</a>
+
+  <!-- GitHub Stats and Badges Section -->
+  <div class="stats-section">
+    <!-- GitHub Readme Stats -->
+    <a href="https://github.com/runarok">
+      <img height="180em" src="https://github-readme-stats.vercel.app/api/?username=runarok&show_icons=true&theme=dracula&count_private=true&include_all_commits=true" />
+    </a>
+
+    <!-- Top Languages Card -->
+    <a href="https://github.com/runarok">
+      <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=runarok&layout=compact&langs_count=7&theme=dracula" />
+    </a>
+
+    <!-- GitHub Streak Stats -->
+    <a href="https://github.com/runarok">
+      <img height="180em" src="https://github-readme-streak-stats.herokuapp.com/?user=runarok&theme=dracula" />
+    </a>
+
+    <!-- Profile Views Counter -->
+    <a href="https://github.com/runarok">
+      <img src="https://komarev.com/ghpvc/?username=runarok&label=Profile%20views&color=0e75b6&style=flat" />
+    </a>
+
+    <!-- GitHub Activity Graph -->
+    <a href="https://github.com/runarok">
+      <img src="https://github-readme-activity-graph.cyclic.app/graph?username=runarok&theme=dracula" />
+    </a>
+
+    <!-- Trophy Stats -->
+    <a href="https://github.com/runarok">
+      <img src="https://github-profile-trophy.vercel.app/?username=runarok&theme=dracula" />
+    </a>
+
+    <!-- Wakatime Stats -->
+    <a href="https://github.com/runarok">
+      <img src="https://wakatime.com/badge/user/your_username.svg" />
+    </a>
+
+    <!-- Badges (e.g., Languages/Tech Stack) -->
+    <div class="badges">
+      <img src="https://img.shields.io/badge/-Python-ff69b4?style=for-the-badge&logo=python" />
+      <img src="https://img.shields.io/badge/-JavaScript-ff69b4?style=for-the-badge&logo=javascript" />
+      <img src="https://img.shields.io/badge/-Docker-ff69b4?style=for-the-badge&logo=docker" />
+      <img src="https://img.shields.io/badge/-Git-ff69b4?style=for-the-badge&logo=git" />
+    </div>
+  </div>
 </body>
 </html>
