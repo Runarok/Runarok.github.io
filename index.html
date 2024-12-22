@@ -149,43 +149,31 @@
         }
 
         data.forEach(repo => {
-          // Create container for each repository
           const container = document.createElement('div');
           container.classList.add('repo-container');
-
-          // Repository name
+          
           const name = document.createElement('div');
           name.classList.add('repo-name');
           name.textContent = repo.name;
 
-          // Buttons container
           const actions = document.createElement('div');
           actions.classList.add('repo-actions');
 
-          // GitHub repository button
           const repoButton = document.createElement('button');
           repoButton.classList.add('repo-button', 'repo');
           repoButton.textContent = 'Repo';
-          repoButton.onclick = () => {
-            window.open(repo.html_url, '_self');
-          };
+          repoButton.onclick = () => { window.open(repo.html_url, '_self'); };
 
-          // GitHub Pages button
           const pagesButton = document.createElement('button');
           pagesButton.classList.add('repo-button', 'pages');
           pagesButton.textContent = 'Pages';
-          pagesButton.onclick = () => {
-            const pagesUrl = `https://${repo.owner.login}.github.io/${repo.name}/`;
-            window.open(pagesUrl, '_self');
-          };
+          pagesButton.onclick = () => { window.open(`https://${repo.owner.login}.github.io/${repo.name}/`, '_self'); };
 
-          // Append buttons to actions and everything to the container
           actions.appendChild(repoButton);
           actions.appendChild(pagesButton);
           container.appendChild(name);
           container.appendChild(actions);
 
-          // Append the container to the menu
           menu.appendChild(container);
         });
       })
@@ -193,6 +181,28 @@
         console.error('Error fetching repositories:', error);
         document.getElementById('menu').innerHTML = '<p>Failed to load repositories. Please try again later.</p>';
       });
+
+    // Open info.html on keypress or zigzag swipe
+    function openInfoPage() {
+      window.location.href = "info.html";
+    }
+
+    // Keydown event for I and Z keys
+    document.addEventListener('keydown', (e) => {
+      if (['i', 'z'].includes(e.key.toLowerCase())) openInfoPage();
+    });
+
+    // Swipe detection variables
+    let touchStart = { x: 0, y: 0 };
+
+    document.addEventListener('touchstart', (e) => {
+      touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    });
+
+    document.addEventListener('touchend', (e) => {
+      const { x, y } = e.changedTouches[0];
+      if (Math.abs(x - touchStart.x) > 50 && Math.abs(y - touchStart.y) > 50) openInfoPage();
+    });
   </script>
 </body>
 </html>
