@@ -2,7 +2,7 @@
   "name": "Runarok GitHub Repositories",
   "short_name": "Runarok Repos",
   "description": "Explore the GitHub repositories of Runarok with quick links to each repository and its live GitHub Pages site.",
-  "start_url": "/",
+  "start_url": "/Runarok/",
   "display": "standalone",
   "background_color": "#181818",
   "theme_color": "#00c9c9",
