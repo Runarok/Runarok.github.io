@@ -191,19 +191,36 @@
             }
           });
 
-          actions.appendChild(repoButton);
-          actions.appendChild(pagesButton);
-          container.appendChild(name);
-          container.appendChild(actions);
-
-          menu.appendChild(container);
+              actions.appendChild(repoButton);
+              actions.appendChild(pagesButton);
+              container.appendChild(name);
+              container.appendChild(actions);
+    
+              menu.appendChild(container);
+            });
+          })
+          .catch(error => {
+            console.error('Error fetching repositories:', error);
+            document.getElementById('menu').innerHTML = '<p>Failed to load repositories. Please try again later.</p>';
+          });
+    
+          // Keydown event for I and Z keys
+        document.addEventListener('keydown', (e) => {
+          if (['i', 'z'].includes(e.key.toLowerCase())) openInfoPage();
         });
-      })
-      .catch(error => {
-        console.error('Error fetching repositories:', error);
-        document.getElementById('menu').innerHTML = '<p>Failed to load repositories. Please try again later.</p>';
-      });
-</script>
+    
+        // Swipe detection variables
+        let touchStart = { x: 0, y: 0 };
+    
+        document.addEventListener('touchstart', (e) => {
+          touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        });
+    
+        document.addEventListener('touchend', (e) => {
+          const { x, y } = e.changedTouches[0];
+          if (Math.abs(x - touchStart.x) > 50 && Math.abs(y - touchStart.y) > 50) openInfoPage();
+
+      </script>
 
 </body>
 </html>
