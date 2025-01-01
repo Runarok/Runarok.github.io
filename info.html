@@ -20,29 +20,35 @@
       padding: 40px 20px;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center; /* Centering content */
       justify-content: flex-start;
       min-height: 100vh;
       line-height: 1.6;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     h1 {
       color: #00ffff;
       margin-bottom: 20px;
+      font-size: 2.5rem; /* Larger title */
     }
 
     h2 {
       color: #00cccc;
       margin-top: 20px;
       margin-bottom: 10px;
+      font-size: 1.8rem;
     }
 
     p {
       margin-bottom: 15px;
+      font-size: 1.1rem; /* Slightly larger for readability */
     }
 
     ul {
       margin: 10px 0 20px 20px;
+      font-size: 1.1rem;
     }
 
     ul li {
@@ -52,6 +58,7 @@
     a {
       color: #00ffff;
       text-decoration: none;
+      font-weight: bold;
     }
 
     a:hover {
@@ -77,10 +84,10 @@
       color: #1e1e1e;
     }
 
-    /* Centering stats section */
+    /* Stats section should be stacked vertically */
     .stats-section {
       display: flex;
-      flex-direction: column;
+      flex-direction: column; /* Stack items vertically */
       align-items: center;
       justify-content: center;
       width: 100%;
@@ -89,11 +96,51 @@
 
     .stats-section img {
       margin: 10px;
+      max-width: 100%;
+    }
+
+    /* Badges Section */
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
     }
 
     .badges img {
       margin: 5px;
     }
+
+    /* Responsive for smaller screens */
+    @media screen and (max-width: 768px) {
+      body {
+        padding: 20px;
+      }
+
+      .stats-section {
+        flex-direction: column; /* Ensure it's stacked vertically on small screens */
+        align-items: center;
+      }
+
+      .back-button {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .badges img {
+        width: 100px;
+        height: 30px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -128,7 +175,7 @@
   <div class="stats-section">
     <!-- GitHub Readme Stats -->
     <a href="https://github.com/runarok">
-    <img height="180em" src="https://github-readme-stats.vercel.app/api/?username=runarok&show_icons=true&theme=dracula&include_all_commits=true&count_private=true&hide=prs&border_radius=10&hide_title=true" />
+      <img height="180em" src="https://github-readme-stats.vercel.app/api/?username=runarok&show_icons=true&theme=dracula&include_all_commits=true&count_private=true&hide=prs&border_radius=10&hide_title=true" />
     </a>
 
     <!-- Top Languages Card -->
