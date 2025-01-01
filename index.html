@@ -203,7 +203,11 @@
             console.error('Error fetching repositories:', error);
             document.getElementById('menu').innerHTML = '<p>Failed to load repositories. Please try again later.</p>';
           });
-    
+
+          // Open info.html on keypress or zigzag swipe
+        function openInfoPage() {
+          window.location.href = "info.html";
+        }
           // Keydown event for I and Z keys
         document.addEventListener('keydown', (e) => {
           if (['i', 'z'].includes(e.key.toLowerCase())) openInfoPage();
