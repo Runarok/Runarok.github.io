@@ -168,12 +168,26 @@
           const repoButton = document.createElement('button');
           repoButton.classList.add('repo-button', 'repo');
           repoButton.textContent = 'Repo';
-          repoButton.onclick = () => { window.open(repo.html_url, '_self'); };
+          repoButton.addEventListener('click', (e) => {
+            // If middle click (button === 1), open in new tab, else same tab
+            if (e.button === 1) {
+              window.open(repo.html_url, '_blank');
+            } else {
+              window.location.href = repo.html_url;
+            }
+          });
 
           const pagesButton = document.createElement('button');
           pagesButton.classList.add('repo-button', 'pages');
           pagesButton.textContent = 'Pages';
-          pagesButton.onclick = () => { window.open(`https://${repo.owner.login}.github.io/${repo.name}/`, '_self'); };
+          pagesButton.addEventListener('click', (e) => {
+            // If middle click (button === 1), open in new tab, else same tab
+            if (e.button === 1) {
+              window.open(`https://${repo.owner.login}.github.io/${repo.name}/`, '_blank');
+            } else {
+              window.location.href = `https://${repo.owner.login}.github.io/${repo.name}/`;
+            }
+          });
 
           actions.appendChild(repoButton);
           actions.appendChild(pagesButton);
