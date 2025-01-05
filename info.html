@@ -179,11 +179,11 @@
 
   <h2>Let's Connect</h2>
   <p>You can reach out to me through my GitHub profile or follow my work. I'm always open to collaboration and learning new things!</p>
-  <p><a href="https://github.com/Runarok" target="_blank" onclick="confirmNavigation()">Visit my GitHub Profile</a></p>
+  <p><a href="https://github.com/Runarok" target="_blank">Visit my GitHub Profile</a></p>
 
   <h2>Explore My Repositories</h2>
   <p>Click below to see all of my repositories:</p>
-  <a href="index.html" style="color: #00ffff;" onclick="confirmNavigation()">Go to My Repositories</a>
+  <a href="index.html" style="color: #00ffff;">Go to My Repositories</a>
 
   <!-- GitHub Stats and Badges Section -->
   <div class="stats-section">
@@ -226,23 +226,6 @@
     // Toggle between dark and light mode
     function toggleTheme() {
       document.body.classList.toggle('light-mode');
-    }
-
-    // Smooth scrolling effect for internal links
-    document.querySelectorAll('a').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        if (this.getAttribute('href').startsWith('#')) {
-          e.preventDefault();
-          document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
-
-    // Confirmation when navigating to repositories or GitHub link
-    function confirmNavigation() {
-      alert('You are about to leave this page and visit my profile or repositories!');
     }
   </script>
 </body>
