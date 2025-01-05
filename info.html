@@ -17,16 +17,22 @@
       font-family: Arial, sans-serif;
       background-color: #1e1e1e;
       color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100vh;
+      line-height: 1.6;
+      margin: 0;
       padding: 40px 20px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .content {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      min-height: 100vh;
-      line-height: 1.6;
-      max-width: 1200px;
-      margin: 0 auto;
-      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     h1 {
@@ -42,10 +48,11 @@
       font-size: 1.8rem;
     }
 
-    p {
-      margin-bottom: 15px;
-      font-size: 1.1rem;
-    }
+   p {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  text-align: center; /* Center-align the text */
+}
 
     ul {
       margin: 10px 0 20px 20px;
@@ -67,7 +74,7 @@
     }
 
     .back-button, .theme-toggle-button {
-      position: absolute;
+      position: fixed;
       top: 20px;
       right: 20px;
       padding: 10px 15px;
@@ -163,32 +170,34 @@
   <button class="theme-toggle-button" onclick="toggleTheme()">🌙 Toggle Theme</button>
 
   <!-- Main Content -->
-  <h1>Welcome to My GitHub Profile!</h1>
-  <p>I'm a passionate developer with a strong interest in coding and technology. My main focus is on web development, and I'm always experimenting with new ideas and projects.</p>
+  <div class="content">
+    <h1>Welcome to My GitHub Profile!</h1>
+    <p>I'm a passionate developer with a strong interest in coding and technology. My main focus is on web development, and I'm always experimenting with new ideas and projects.</p>
 
-  <h2>About Me</h2>
-  <p>I specialize in various programming languages, including JavaScript, MATLAB, CSS, and HTML. I enjoy working with web technologies like HTML, CSS, and JavaScript to create dynamic and responsive websites. I also have experience in MATLAB, which I use for scientific computing and data analysis.</p>
+    <h2>About Me</h2>
+    <p>I specialize in various programming languages, including JavaScript, MATLAB, CSS, and HTML. I enjoy working with web technologies like HTML, CSS, and JavaScript to create dynamic and responsive websites. I also have experience in MATLAB, which I use for scientific computing and data analysis.</p>
 
-  <h2>My Interests</h2>
-  <p>When I'm not coding, I spend my time enjoying different hobbies, such as:</p>
-  <ul>
-    <li>Watching Anime</li>
-    <li>Listening to Music</li>
-    <li>Playing Video Games</li>
-    <li>Exploring new technologies</li>
-  </ul>
+    <h2>My Interests</h2>
+    <p>When I'm not coding, I spend my time enjoying different hobbies, such as:</p>
+    <ul>
+      <li>Watching Anime</li>
+      <li>Listening to Music</li>
+      <li>Playing Video Games</li>
+      <li>Exploring new technologies</li>
+    </ul>
 
-  <h2>Let's Connect</h2>
-  <p>You can reach out to me through my GitHub profile or follow my work. I'm always open to collaboration and learning new things!</p>
-  <p><a href="https://github.com/Runarok" target="_blank">Visit my GitHub Profile</a></p>
+    <h2>Let's Connect</h2>
+    <p>You can reach out to me through my GitHub profile or follow my work. I'm always open to collaboration and learning new things!</p>
+    <p><a href="https://github.com/Runarok" target="_blank">Visit my GitHub Profile</a></p>
 
-  <h2>Explore My Repositories</h2>
-  <p>Click below to see all of my repositories:</p>
-  <a href="index.html" style="color: #00ffff;">Go to My Repositories</a>
+    <h2>Explore My Repositories</h2>
+    <p>Click below to see all of my repositories:</p>
+    <a href="index.html" style="color: #00ffff;">Go to My Repositories</a>
 
-  <!-- GitHub Stats and Badges Section -->
-  <div class="stats-section" id="github-stats">
-    <!-- Stats will be injected here by JavaScript -->
+    <!-- GitHub Stats and Badges Section -->
+    <div class="stats-section" id="github-stats">
+      <!-- Stats will be injected here by JavaScript -->
+    </div>
   </div>
 
   <script>
@@ -244,3 +253,4 @@
   </script>
 </body>
 </html>
+
