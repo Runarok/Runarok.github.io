@@ -24,8 +24,8 @@ I enjoy coding and have experience in languages such as C, C++, and Python. Curr
 <div align="center">
   <a href="https://github.com/runarok">
     <img height="180em" src="https://github-readme-stats.vercel.app/api/?username=runarok&show_icons=true&theme=dracula&include_all_commits=true&count_private=true&hide=prs&border_radius=10&hide_title=true" />
-    <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=runarok&layout=compact&langs_count=6&theme=dracula" />
-    <img height="180em" src="https://github-readme-streak-stats.herokuapp.com/?user=runarok&theme=dracula" />
+    <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=runarok&layout=compact&langs_count=6&theme=dracula&border_radius=10" />
+    <img height="180em" src="https://github-readme-streak-stats.herokuapp.com/?user=runarok&theme=dracula&border_radius=10" />
   </a>
 </div>
 
