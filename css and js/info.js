@@ -37,5 +37,14 @@ document.getElementById("github-stats").innerHTML = `
     <img src="https://img.shields.io/badge/-HTML-ff69b4?style=for-the-badge&logo=html5" />
     <img src="https://img.shields.io/badge/-CSS-ff69b4?style=for-the-badge&logo=css3" />
     <img src="https://img.shields.io/badge/-Git-ff69b4?style=for-the-badge&logo=git" />
+    <img src="https://img.shields.io/badge/-Python-ff69b4?style=for-the-badge&logo=python" />
+    <img src="https://img.shields.io/badge/-LabVIEW-ff69b4?style=for-the-badge&logo=labview" />
+    <img src="https://img.shields.io/badge/-ASM%208051-ff69b4?style=for-the-badge&logo=assembly" />
+    <img src="https://img.shields.io/badge/-C%2B%2B-ff69b4?style=for-the-badge&logo=c%2B%2B" />
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>I am familiar with the basics of these technologies, though I am still need of more experience.</p>
   </div>
 `;
