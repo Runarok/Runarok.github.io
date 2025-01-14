@@ -30,7 +30,7 @@ I enjoy coding and have experience in languages such as C, C++, and Python. Curr
 <div align="center">
   <a href="https://github.com/runarok">    
     -->
-    <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=runarok&layout=compact&langs_count=10&theme=dracula&border_radius=10" />
+    <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=runarok&layout=compact&langs_count=8&theme=dracula&border_radius=10" />
   </a>
 </div>
 
