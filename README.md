@@ -32,14 +32,13 @@ Together, **"RunarokHrafn"** can be interpreted as:
 ## GitHub Stats
 <div align="center">
   <a href="https://github.com/runarok">
-    <img height="180em" src="https://github-readme-stats.vercel.app/api/?username=runarok&show_icons=true&theme=dracula&include_all_commits=true&count_private=true&hide=prs,issues&border_radius=10&hide_title=true" />
+    <img height="180" src="https://github-readme-stats.vercel.app/api/?username=runarok&show_icons=true&theme=dracula&include_all_commits=true&count_private=true&hide=prs,issues&border_radius=10&hide_title=true" />
   </a>
-</div>
-<div align="center">
   <a href="https://github.com/runarok">    
-    <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=runarok&layout=compact&langs_count=10&theme=dracula&border_radius=10" />
+    <img height="180" src="https://github-readme-stats.vercel.app/api/top-langs/?username=runarok&layout=compact&langs_count=12&theme=dracula&border_radius=10" />
   </a>
 </div>
+
 
 ---
 
