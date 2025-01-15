@@ -18,18 +18,25 @@ I enjoy coding and have experience in languages such as C, C++, and Python. Curr
 - The **fate of runes** or the **mystery of fate**, combining ancient wisdom and the inevitability of destiny.
 - A powerful, mystical force that brings about change or destruction, evoking images of an inevitable and profound event, like the cataclysmic events in Norse mythology (**Ragnarök**).
 
+**"RunarokHrafn"** is used in some of my profiles, and it adds another element:
+
+- **Hrafn**: Meaning "raven" in Old Norse, this bird is often associated with wisdom, knowledge, and prophecy in Norse mythology. Ravens were considered messengers, often linked to the gods, especially Odin, who had two ravens, Huginn (thought) and Muninn (memory).
+
+Together, **"RunarokHrafn"** can be interpreted as:
+
+- The **mystery of fate** combined with the **wisdom and prophecy of the raven**, suggesting a powerful force that knows and sees the course of destiny.
+- A symbolic blend of ancient wisdom, fate, and the watchful eye of the raven, always observing the unfolding of events.
+
 ---
 
 ## GitHub Stats
 <div align="center">
   <a href="https://github.com/runarok">
     <img height="180em" src="https://github-readme-stats.vercel.app/api/?username=runarok&show_icons=true&theme=dracula&include_all_commits=true&count_private=true&hide=prs,issues&border_radius=10&hide_title=true" />
-      <!--
-      </a>
+  </a>
 </div>
 <div align="center">
   <a href="https://github.com/runarok">    
-    -->
     <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=runarok&layout=compact&langs_count=10&theme=dracula&border_radius=10" />
   </a>
 </div>
@@ -43,9 +50,4 @@ You can explore all my projects and web experiments on my GitHub Pages here:
 
 ---
 
-## Note:
-*I occasionally draw inspiration from various sources online to enhance my projects. I'm always ready to remove any content that may seem like I copied code, although I assure you I never did.*
-
----
-
-
+> *I occasionally draw inspiration from various sources online to enhance my projects. I'm always ready to remove any content that may seem like I copied code, although I assure you I never did.*
