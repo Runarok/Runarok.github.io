@@ -49,4 +49,4 @@ You can explore all my projects and web experiments on my GitHub Pages here:
 
 ---
 
-> *I occasionally draw inspiration from various sources online to enhance my projects. I'm always ready to remove any content that may seem like I copied code, although I assure you I never did.*
+> **I often draw inspiration from various online sources to enhance my projects and am always willing to remove any content that may unintentionally resemble existing code. While I take inspiration from different works, I don't simply copy and paste; instead, I incorporate ideas in a way that reflects my own understanding and creativity.**
