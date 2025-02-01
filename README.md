@@ -49,12 +49,6 @@ Together, **"RunarokHrafn"** can be interpreted as:
 	</a>
 </div>
 
-<div align=center>
-	<a href="https://runarok.github.io/portfolio/" target="_blank">
-  		<img src="https://github-profile-trophy.vercel.app/?username=runarok&no-bg=true&theme=dracula&no-frame=true&title=Commits,MultiLanguage,PullRequest,Repositories,Followers,Stars&column=6" alt="runarok" width=200% height=100%/>
-	</a>
-</div>
-
 ---
 
 # Socials
