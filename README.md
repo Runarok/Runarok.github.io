@@ -32,21 +32,11 @@ Together, **"RunarokHrafn"** can be interpreted as:
 ## GitHub Stats
 
 <div align="center">
-	<a href="https://runarok.github.io/portfolio/" target="_blank">
-  		<img src="https://github-readme-stats.vercel.app/api/top-langs?username=runarok&show_icons=true&locale=en&layout=compact&theme=dracula&hide_border=true" width="80%"/>
-	</a>
-</div>
-
-<div align="center">
-	<a href="https://runarok.github.io/portfolio/" target="_blank">
-  		<img src="https://github-readme-stats.vercel.app/api?username=runarok&show_icons=true&locale=en&langs_count=20&count_private=true&theme=dracula&hide_border=true" width="80%"/>
-	</a>
-</div>
-
-<div align="center">
-	<a href="https://runarok.github.io/portfolio/" target="_blank">
-  		<img src="https://github-readme-streak-stats.herokuapp.com?user=runarok&theme=dracula&background=00000000&hide_border=true&date_format=M%20j%5B%2C%20Y%5D" alt="runarok" width="80%"/>
-	</a>
+  <a href="https://github.com/runarok">
+    <img height="180em" src="https://github-readme-stats.vercel.app/api/?username=runarok&show_icons=true&theme=dracula&background=00000000&include_all_commits=true&count_private=true&hide=prs&border_radius=10&hide_title=true">
+    <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=runarok&layout=compact&langs_count=6&theme=dracula&background=00000000&border_radius=10">
+    <img src="https://github-readme-streak-stats.herokuapp.com?user=runarok&theme=dracula&background=00000000&hide_border=true&date_format=M%20j%5B%2C%20Y%5D" alt="runarok" width="80%"/>  
+  </a>
 </div>
 
 ---
