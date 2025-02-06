@@ -11,7 +11,118 @@
   <link rel="manifest" href="manifest.json">
   
   <title>Runarok - GitHub Repositories</title>
-  <link rel="stylesheet" href="css and js/Main.css">  <!-- Link to external CSS -->
+  <style>
+    /* General reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", Arial, sans-serif;
+      background-color: #181818;
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      font-size: 2.2rem;
+      color: #00c9c9;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .repo-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #202020;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .repo-container:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .repo-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #00e0e0;
+      text-align: left;
+      flex-grow: 1;
+    }
+
+    .repo-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .repo-button {
+      padding: 8px 15px;
+      font-size: 0.95rem;
+      color: #f0f0f0;
+      background: #333;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .repo-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .repo-button.repo {
+      background: #444;
+    }
+
+    .repo-button.repo:hover {
+      background: #0077cc;
+    }
+
+    .repo-button.pages {
+      background: #444;
+    }
+
+    .repo-button.pages:hover {
+      background: #00cccc;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      text-align: center;
+      color: #aaaaaa;
+    }
+
+    .footer a {
+      color: #00cccc;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
   <h1>Runarok's GitHub Repositories</h1>
@@ -27,6 +138,93 @@
     <p>Made with ❤️ by <a href="https://github.com/Runarok">Runarok</a></p>
   </div>
 
-  <script src="css and js/Main.js"></script>  <!-- Link to external JS -->
+  <script>
+    // Fetching repositories from the GitHub API
+    fetch('https://api.github.com/users/Runarok/repos')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch repositories from GitHub API.');
+        }
+        return response.json();
+      })
+      .then(data => {
+        const menu = document.getElementById('menu');
+        if (data.length === 0) {
+          menu.innerHTML = '<p>No repositories found.</p>';
+          return;
+        }
+
+        data.forEach(repo => {
+          const container = document.createElement('div');
+          container.classList.add('repo-container');
+          
+          const name = document.createElement('div');
+          name.classList.add('repo-name');
+          name.textContent = repo.name;
+
+          const actions = document.createElement('div');
+          actions.classList.add('repo-actions');
+
+          const repoButton = document.createElement('button');
+          repoButton.classList.add('repo-button', 'repo');
+          repoButton.textContent = 'Repo';
+          repoButton.addEventListener('mousedown', (e) => {
+            if (e.button === 1) {
+              // Middle-click, open in new tab
+              window.open(repo.html_url, '_blank');
+            } else {
+              // Left-click, open in the same tab
+              window.location.href = repo.html_url;
+            }
+          });
+
+          const pagesButton = document.createElement('button');
+          pagesButton.classList.add('repo-button', 'pages');
+          pagesButton.textContent = 'Pages';
+          pagesButton.addEventListener('mousedown', (e) => {
+            if (e.button === 1) {
+              // Middle-click, open in new tab
+              window.open(`https://${repo.owner.login}.github.io/${repo.name}/`, '_blank');
+            } else {
+              // Left-click, open in the same tab
+              window.location.href = `https://${repo.owner.login}.github.io/${repo.name}/`;
+            }
+          });
+
+          actions.appendChild(repoButton);
+          actions.appendChild(pagesButton);
+          container.appendChild(name);
+          container.appendChild(actions);
+
+          menu.appendChild(container);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching repositories:', error);
+        document.getElementById('menu').innerHTML = '<p>Failed to load repositories. Please try again later.</p>';
+      });
+
+    // Open info.html on keypress or zigzag swipe
+    function openInfoPage() {
+      window.location.href = "info.html";
+    }
+
+    // Keydown event for I and Z keys
+    document.addEventListener('keydown', (e) => {
+      if (['i', 'z'].includes(e.key.toLowerCase())) openInfoPage();
+    });
+
+    // Swipe detection variables
+    let touchStart = { x: 0, y: 0 };
+
+    document.addEventListener('touchstart', (e) => {
+      touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    });
+
+    document.addEventListener('touchend', (e) => {
+      const { x, y } = e.changedTouches[0];
+      if (Math.abs(x - touchStart.x) > 50 && Math.abs(y - touchStart.y) > 50) openInfoPage();
+    });
+  </script>
 </body>
 </html>
