@@ -122,12 +122,26 @@
     .footer a:hover {
       text-decoration: underline;
     }
+
+    .section-title {
+      font-size: 1.5rem;
+      color: #00e0e0;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <h1>Runarok's GitHub Repositories</h1>
 
-  <div class="menu" id="menu"></div>
+  <!-- Active Repositories Section -->
+  <div class="section-title">Active Repositories</div>
+  <div class="menu" id="active-menu"></div>
+
+  <!-- Archived Repositories Section -->
+  <div class="section-title">Archived Repositories</div>
+  <div class="menu" id="archived-menu"></div>
 
   <div class="footer">
     <p>
@@ -148,9 +162,12 @@
         return response.json();
       })
       .then(data => {
-        const menu = document.getElementById('menu');
+        const activeMenu = document.getElementById('active-menu');
+        const archivedMenu = document.getElementById('archived-menu');
+
         if (data.length === 0) {
-          menu.innerHTML = '<p>No repositories found.</p>';
+          activeMenu.innerHTML = '<p>No repositories found.</p>';
+          archivedMenu.innerHTML = '<p>No repositories found.</p>';
           return;
         }
 
@@ -196,12 +213,18 @@
           container.appendChild(name);
           container.appendChild(actions);
 
-          menu.appendChild(container);
+          // Add to the appropriate section
+          if (repo.archived) {
+            archivedMenu.appendChild(container);
+          } else {
+            activeMenu.appendChild(container);
+          }
         });
       })
       .catch(error => {
         console.error('Error fetching repositories:', error);
-        document.getElementById('menu').innerHTML = '<p>Failed to load repositories. Please try again later.</p>';
+        document.getElementById('active-menu').innerHTML = '<p>Failed to load repositories. Please try again later.</p>';
+        document.getElementById('archived-menu').innerHTML = '<p>Failed to load repositories. Please try again later.</p>';
       });
 
     // Open info.html on keypress or zigzag swipe
