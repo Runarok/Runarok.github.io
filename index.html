@@ -1,253 +1,301 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-  <!-- Favicon and icon for 'Add to Home Screen' -->
-  <link rel="icon" href="https://raw.githubusercontent.com/Runarok/Runarok/main/Logo.png" type="image/png">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Runarok - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      .animate-typing {
+        overflow: hidden;
+        border-right: 2px solid #6E57E0;
+        white-space: nowrap;
+        animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+      }
+      @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+      }
+      @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: #6E57E0 }
+      }
 
-  <!-- Link to manifest.json (for better compatibility with 'Add to Home Screen') -->
-  <link rel="manifest" href="manifest.json">
-  
-  <title>Runarok - GitHub Repositories</title>
-  <style>
-    /* General reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(110, 87, 224, 0.5);
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(110, 87, 224, 0.7);
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#6E57E0",
+              secondary: "#2A2A2A",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-secondary text-gray-100 min-h-screen">
+    <nav class="fixed w-full bg-secondary/90 backdrop-blur-sm z-50">
+      <div class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <a href="https://github.com/Runarok" class="text-2xl font-['Pacifico'] text-primary">Runarok</a>
+          <div class="hidden md:flex items-center space-x-8">
+            <a href="#about" class="hover:text-primary transition-colors cursor-pointer">About</a>
+            <a href="#projects" class="hover:text-primary transition-colors cursor-pointer">Projects</a>
+            <a href="#skills" class="hover:text-primary transition-colors cursor-pointer">Skills</a>
+          </div>
+          <button class="md:hidden w-10 h-10 flex items-center justify-center cursor-pointer">
+            <i class="ri-menu-line text-2xl"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
 
-    body {
-      font-family: "Inter", Arial, sans-serif;
-      background-color: #181818;
-      color: #f0f0f0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 20px;
-    }
+    <section id="about" class="min-h-screen flex items-center pt-20">
+      <div class="container mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 animate-typing">Hi, I'm Runarok</h1>
+            <h2 class="text-xl md:text-2xl text-primary mb-6">Adept Web Developer</h2>
+            <p class="text-gray-300 mb-8">
+              Driven by a strong interest in solving complex problems, I am a student eager to learn and apply my skills in web development. I specialize in HTML5, CSS3, JavaScript, and Python... 
+            </p>
+            <div class="flex space-x-4">
+              <a href="https://github.com/RUNAROK" target="_blank" class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full hover:bg-primary/20 transition-colors cursor-pointer">
+                <i class="ri-github-line text-2xl"></i>
+              </a>
+              <a href="https://linkedin.com/in/RUNAROK" target="_blank" class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full hover:bg-primary/20 transition-colors cursor-pointer">
+                <i class="ri-linkedin-line text-2xl"></i>
+              </a>
+              <a href="https://twitter.com/RUNAROK" target="_blank" class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full hover:bg-primary/20 transition-colors cursor-pointer">
+                <i class="ri-twitter-line text-2xl"></i>
+              </a>
+            </div>
+          </div>
+          <div class="relative">
+            <img src="https://avatars.githubusercontent.com/u/191216225?v=4" alt="Runarok" class="rounded-2xl shadow-2xl object-cover" />
+            <div class="absolute inset-0 bg-primary/20 rounded-2xl"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    h1 {
-      margin-bottom: 30px;
-      font-size: 2.2rem;
-      color: #00c9c9;
-      text-align: center;
-      letter-spacing: 1px;
-    }
+    <section id="projects" class="py-20">
+      <div class="container mx-auto px-6">
+        <div class="flex justify-between items-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold">Featured Projects</h2>
+          <div class="flex items-center space-x-4">
+            <select id="sort-projects" class="bg-secondary/50 text-gray-100 px-4 py-2 rounded-button border-none focus:outline-none focus:ring-2 focus:ring-primary">
+              <option value="updated">Last Updated</option>
+              <option value="created">Created Date</option>
+              <option value="stars">Most Stars</option>
+              <option value="name">Name</option>
+            </select>
+            <div class="relative">
+              <input type="text" id="search-projects" placeholder="Search projects..." class="bg-secondary/50 text-gray-100 px-4 py-2 rounded-button border-none focus:outline-none focus:ring-2 focus:ring-primary pr-10" />
+              <i class="ri-search-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+        <div class="max-h-[800px] overflow-y-auto pr-4 custom-scrollbar">
+          <div id="github-projects" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="flex items-center justify-center col-span-full">
+              <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    .menu {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      width: 100%;
-      max-width: 700px;
-    }
-
-    .repo-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #202020;
-      padding: 15px 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-    }
-
-    .repo-container:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
-    }
-
-    .repo-name {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #00e0e0;
-      text-align: left;
-      flex-grow: 1;
-    }
-
-    .repo-actions {
-      display: flex;
-      gap: 10px;
-    }
-
-    .repo-button {
-      padding: 8px 15px;
-      font-size: 0.95rem;
-      color: #f0f0f0;
-      background: #333;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-
-    .repo-button:hover {
-      transform: translateY(-2px);
-    }
-
-    .repo-button.repo {
-      background: #444;
-    }
-
-    .repo-button.repo:hover {
-      background: #0077cc;
-    }
-
-    .repo-button.pages {
-      background: #444;
-    }
-
-    .repo-button.pages:hover {
-      background: #00cccc;
-    }
-
-    .footer {
-      margin-top: 40px;
-      font-size: 0.9rem;
-      text-align: center;
-      color: #aaaaaa;
-    }
-
-    .footer a {
-      color: #00cccc;
-      text-decoration: none;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-      color: #00e0e0;
-      margin-top: 40px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <h1>Runarok's GitHub Repositories</h1>
-
-  <!-- Active Repositories Section -->
-  <div class="section-title">Active Repositories</div>
-  <div class="menu" id="active-menu"></div>
-
-  <!-- Archived Repositories Section -->
-  <div class="section-title">Archived Repositories</div>
-  <div class="menu" id="archived-menu"></div>
-
-  <div class="footer">
-    <p>
-      Click <strong>Repo</strong> to view the repository on 
-      <a href="https://github.com" target="_self">GitHub</a>, or <strong>Pages</strong> to visit the live site on 
-      <a href="https://pages.github.com" target="_self">GitHub Pages</a>.
-    </p>
-    <p>Made with ❤️ by <a href="https://github.com/Runarok">Runarok</a></p>
-  </div>
-
-  <script>
-    // Fetching repositories from the GitHub API
-    fetch('https://api.github.com/users/Runarok/repos')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch repositories from GitHub API.');
-        }
-        return response.json();
-      })
-      .then(data => {
-        const activeMenu = document.getElementById('active-menu');
-        const archivedMenu = document.getElementById('archived-menu');
-
-        if (data.length === 0) {
-          activeMenu.innerHTML = '<p>No repositories found.</p>';
-          archivedMenu.innerHTML = '<p>No repositories found.</p>';
-          return;
-        }
-
-        data.forEach(repo => {
-          const container = document.createElement('div');
-          container.classList.add('repo-container');
-          
-          const name = document.createElement('div');
-          name.classList.add('repo-name');
-          name.textContent = repo.name;
-
-          const actions = document.createElement('div');
-          actions.classList.add('repo-actions');
-
-          const repoButton = document.createElement('button');
-          repoButton.classList.add('repo-button', 'repo');
-          repoButton.textContent = 'Repo';
-          repoButton.addEventListener('mousedown', (e) => {
-            if (e.button === 1) {
-              // Middle-click, open in new tab
-              window.open(repo.html_url, '_blank');
-            } else {
-              // Left-click, open in the same tab
-              window.location.href = repo.html_url;
-            }
-          });
-
-          const pagesButton = document.createElement('button');
-          pagesButton.classList.add('repo-button', 'pages');
-          pagesButton.textContent = 'Pages';
-          pagesButton.addEventListener('mousedown', (e) => {
-            if (e.button === 1) {
-              // Middle-click, open in new tab
-              window.open(`https://${repo.owner.login}.github.io/${repo.name}/`, '_blank');
-            } else {
-              // Left-click, open in the same tab
-              window.location.href = `https://${repo.owner.login}.github.io/${repo.name}/`;
-            }
-          });
-
-          actions.appendChild(repoButton);
-          actions.appendChild(pagesButton);
-          container.appendChild(name);
-          container.appendChild(actions);
-
-          // Add to the appropriate section
-          if (repo.archived) {
-            archivedMenu.appendChild(container);
-          } else {
-            activeMenu.appendChild(container);
+    <script>
+      async function fetchGithubProjects(sort = "updated") {
+        try {
+          const response = await fetch(`https://api.github.com/users/RUNAROK/repos?sort=${sort}`);
+          const projects = await response.json();
+          const projectsContainer = document.getElementById("github-projects");
+          projectsContainer.innerHTML = "";
+          let filteredProjects = projects;
+          const searchTerm = document.getElementById("search-projects").value.toLowerCase();
+          if (searchTerm) {
+            filteredProjects = projects.filter((project) =>
+              project.name.toLowerCase().includes(searchTerm) ||
+              (project.description && project.description.toLowerCase().includes(searchTerm))
+            );
           }
+          filteredProjects.forEach((project, index) => {
+            const languages = project.language ? [project.language] : [];
+            const card = document.createElement("div");
+            card.className = "bg-secondary/50 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-transform duration-300";
+            card.innerHTML = `
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">${project.name}</h3>
+                <p class="text-gray-400 mb-4">${project.description ? project.description.slice(0, 100) + '...' : "No description available"}</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  ${languages.map((lang) => `<span class="px-3 py-1 bg-primary/10 rounded-full text-sm">${lang}</span>`).join("")}
+                </div>
+                <a href="${project.html_url}" target="_blank" class="text-primary hover:text-primary/80 transition-colors">View Project →</a>
+              </div>
+            `;
+            projectsContainer.appendChild(card);
+          });
+        } catch (error) {
+          console.error("Error fetching GitHub projects:", error);
+          document.getElementById("github-projects").innerHTML = `
+            <div class="col-span-3 text-center text-gray-400">
+              <i class="ri-error-warning-line text-4xl mb-4"></i>
+              <p>Failed to load GitHub projects. Please try again later.</p>
+            </div>
+          `;
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        fetchGithubProjects();
+        document.getElementById("sort-projects").addEventListener("change", (e) => {
+          fetchGithubProjects(e.target.value);
         });
-      })
-      .catch(error => {
-        console.error('Error fetching repositories:', error);
-        document.getElementById('active-menu').innerHTML = '<p>Failed to load repositories. Please try again later.</p>';
-        document.getElementById('archived-menu').innerHTML = '<p>Failed to load repositories. Please try again later.</p>';
+        document.getElementById("search-projects").addEventListener("input", debounce(() => {
+          fetchGithubProjects(document.getElementById("sort-projects").value);
+        }, 300));
       });
 
-    // Open info.html on keypress or zigzag swipe
-    function openInfoPage() {
-      window.location.href = "info.html";
-    }
+      function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      }
+    </script>
 
-    // Keydown event for I and Z keys
-    document.addEventListener('keydown', (e) => {
-      if (['i', 'z'].includes(e.key.toLowerCase())) openInfoPage();
-    });
+    <section id="skills" class="py-20 bg-secondary/30">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">Skills & Expertise</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="p-6 bg-secondary/50 rounded-xl">
+            <h3 class="text-xl font-semibold mb-6 flex items-center">
+              <i class="ri-code-line text-2xl text-primary mr-2"></i> Web Development
+            </h3>
+            <div class="grid grid-cols-2 gap-4">
+              <!-- HTML5, CSS3, JS -->
+              <div class="flex items-center p-4 bg-primary/10 rounded-xl hover:bg-primary/20 transition-colors">
+                <i class="ri-html5-line text-2xl mr-3 text-primary"></i>
+                <div>
+                  <div class="font-medium">HTML5</div>
+                  <div class="text-sm text-gray-400">Competent</div>
+                </div>
+              </div>
+              <div class="flex items-center p-4 bg-primary/10 rounded-xl hover:bg-primary/20 transition-colors">
+                <i class="ri-css3-line text-2xl mr-3 text-primary"></i>
+                <div>
+                  <div class="font-medium">CSS3</div>
+                  <div class="text-sm text-gray-400">Competent</div>
+                </div>
+              </div>
+              <div class="flex items-center p-4 bg-primary/10 rounded-xl hover:bg-primary/20 transition-colors">
+                <i class="ri-javascript-line text-2xl mr-3 text-primary"></i>
+                <div>
+                  <div class="font-medium">JavaScript</div>
+                  <div class="text-sm text-gray-400">Competent</div>
+                </div>
+              </div>
+              <div class="flex items-center p-4 bg-primary/10 rounded-xl hover:bg-primary/20 transition-colors">
+                <i class="ri-python-line text-2xl mr-3 text-primary"></i>
+                <div>
+                  <div class="font-medium">Python</div>
+                  <div class="text-sm text-gray-400">Competent</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    // Swipe detection variables
-    let touchStart = { x: 0, y: 0 };
+          <div class="p-6 bg-secondary/50 rounded-xl">
+            <h3 class="text-xl font-semibold mb-6 flex items-center">
+              <i class="ri-github-line text-2xl text-primary mr-2"></i> Version Control & Platforms
+            </h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="flex items-center p-4 bg-primary/10 rounded-xl hover:bg-primary/20 transition-colors">
+                <i class="ri-github-line text-2xl mr-3 text-primary"></i>
+                <div>
+                  <div class="font-medium">GitHub</div>
+                  <div class="text-sm text-gray-400">Expert</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    document.addEventListener('touchstart', (e) => {
-      touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-    });
-
-    document.addEventListener('touchend', (e) => {
-      const { x, y } = e.changedTouches[0];
-      if (Math.abs(x - touchStart.x) > 50 && Math.abs(y - touchStart.y) > 50) openInfoPage();
-    });
-  </script>
-</body>
+          <div class="p-6 bg-secondary/50 rounded-xl">
+            <h3 class="text-xl font-semibold mb-6 flex items-center">
+              <i class="ri-code-s-slash-line text-2xl text-primary mr-2"></i> Other Technologies
+            </h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="flex items-center p-4 bg-primary/10 rounded-xl hover:bg-primary/20 transition-colors">
+                <i class="ri-cplusplus-line text-2xl mr-3 text-primary"></i>
+                <div>
+                  <div class="font-medium">C++</div>
+                  <div class="text-sm text-gray-400">Occasional</div>
+                </div>
+              </div>
+              <div class="flex items-center p-4 bg-primary/10 rounded-xl hover:bg-primary/20 transition-colors">
+                <i class="ri-terminal-line text-2xl mr-3 text-primary"></i>
+                <div>
+                  <div class="font-medium">Assembly</div>
+                  <div class="text-sm text-gray-400">Occasional</div>
+                </div>
+              </div>
+              <div class="flex items-center p-4 bg-primary/10 rounded-xl hover:bg-primary/20 transition-colors">
+                <i class="ri-java-line text-2xl mr-3 text-primary"></i>
+                <div>
+                  <div class="font-medium">Java</div>
+                  <div class="text-sm text-gray-400">Occasional</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>
