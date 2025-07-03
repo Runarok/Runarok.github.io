@@ -1,231 +1,327 @@
-// GitHub API Configuration
-const GITHUB_USERNAME = 'Runarok';
-const GITHUB_API_BASE = 'https://api.github.com';
-const REPOS_PER_PAGE = 50;
+// Configuration
+const CONFIG = {
+    username: 'Runarok',
+    apiBase: 'https://api.github.com',
+    reposPerPage: 30,
+    themes: ['theme-dark', 'theme-light', 'theme-purple', 'theme-ocean', 'theme-forest']
+};
 
-// Global State
-let allRepositories = [];
-let filteredRepositories = [];
-let currentPage = 1;
-let isLoading = false;
-let hasMoreRepos = true;
+// Language colors
+const LANGUAGE_COLORS = {
+    JavaScript: '#f1e05a',
+    TypeScript: '#2b7489',
+    Python: '#3572A5',
+    Java: '#b07219',
+    'C++': '#f34b7d',
+    'C#': '#239120',
+    PHP: '#4F5D95',
+    Ruby: '#701516',
+    Go: '#00ADD8',
+    Rust: '#dea584',
+    Swift: '#ffac45',
+    Kotlin: '#F18E33',
+    Dart: '#00B4AB',
+    HTML: '#e34c26',
+    CSS: '#1572B6',
+    Vue: '#4FC08D',
+    React: '#61DAFB',
+    Angular: '#DD0031',
+    Shell: '#89e051',
+    PowerShell: '#012456',
+    Dockerfile: '#384d54'
+};
 
-// Theme Management
-const themes = ['theme-dark', 'theme-light', 'theme-purple', 'theme-ocean'];
-let currentThemeIndex = 0;
+// Global state
+const state = {
+    allRepos: [],
+    filteredRepos: [],
+    currentPage: 1,
+    totalPages: 1,
+    currentTheme: 0,
+    currentView: 'grid',
+    isLoading: false
+};
 
-// DOM Elements
-let elementsCache = {};
+// DOM elements
+const elements = {};
 
-// Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
+// Initialize app
+document.addEventListener('DOMContentLoaded', init);
+
+function init() {
     cacheElements();
     initializeTheme();
-    loadUserProfile();
-    loadRepositories();
     setupEventListeners();
+    handleUrlParams();
+    loadUserData();
+    loadRepositories();
     setupScrollEffects();
-});
-
-// Cache DOM elements for better performance
-function cacheElements() {
-    elementsCache = {
-        body: document.body,
-        themeToggle: document.getElementById('themeToggle'),
-        userAvatar: document.getElementById('userAvatar'),
-        userBio: document.getElementById('userBio'),
-        userStats: document.getElementById('userStats'),
-        publicRepos: document.getElementById('publicRepos'),
-        followers: document.getElementById('followers'),
-        following: document.getElementById('following'),
-        searchInput: document.getElementById('searchInput'),
-        languageFilter: document.getElementById('languageFilter'),
-        sortBy: document.getElementById('sortBy'),
-        reposGrid: document.getElementById('reposGrid'),
-        loadingContainer: document.getElementById('loadingContainer'),
-        loadMoreContainer: document.getElementById('loadMoreContainer'),
-        loadMoreBtn: document.getElementById('loadMoreBtn'),
-        aboutDescription: document.getElementById('aboutDescription')
-    };
 }
 
-// Theme Management Functions
+function cacheElements() {
+    const ids = [
+        'themeToggle', 'themeDropdown', 'userAvatar', 'repoCount', 'followerCount', 
+        'followingCount', 'searchInput', 'clearSearch', 'languageFilter', 'sortFilter', 
+        'orderFilter', 'repoGrid', 'loading', 'pagination', 'paginationInfo', 
+        'pageNumbers', 'prevBtn', 'nextBtn', 'scrollTop'
+    ];
+    
+    ids.forEach(id => {
+        elements[id] = document.getElementById(id);
+    });
+    
+    elements.viewBtns = document.querySelectorAll('.view-btn');
+    elements.themeOptions = document.querySelectorAll('.theme-option');
+}
+
+// Theme management
 function initializeTheme() {
-    const savedTheme = localStorage.getItem('github-profile-theme');
-    if (savedTheme && themes.includes(savedTheme)) {
-        currentThemeIndex = themes.indexOf(savedTheme);
+    const saved = localStorage.getItem('github-theme');
+    if (saved && CONFIG.themes.includes(saved)) {
+        state.currentTheme = CONFIG.themes.indexOf(saved);
     }
     applyTheme();
     updateThemeIcon();
-}
-
-function toggleTheme() {
-    currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-    applyTheme();
-    updateThemeIcon();
-    localStorage.setItem('github-profile-theme', themes[currentThemeIndex]);
+    updateThemeDropdown();
 }
 
 function applyTheme() {
-    elementsCache.body.className = themes[currentThemeIndex];
+    document.body.className = CONFIG.themes[state.currentTheme];
+    localStorage.setItem('github-theme', CONFIG.themes[state.currentTheme]);
 }
 
 function updateThemeIcon() {
     const icons = {
-        'theme-dark': 'fas fa-sun',
-        'theme-light': 'fas fa-moon',
-        'theme-purple': 'fas fa-palette',
-        'theme-ocean': 'fas fa-water'
+        'theme-dark': 'fas fa-moon',
+        'theme-light': 'fas fa-sun',
+        'theme-purple': 'fas fa-magic',
+        'theme-ocean': 'fas fa-water',
+        'theme-forest': 'fas fa-leaf'
     };
     
-    const iconClass = icons[themes[currentThemeIndex]] || 'fas fa-moon';
-    elementsCache.themeToggle.innerHTML = `<i class="${iconClass}"></i>`;
+    const currentTheme = CONFIG.themes[state.currentTheme];
+    elements.themeToggle.innerHTML = `<i class="${icons[currentTheme]}"></i>`;
 }
 
-// User Profile Loading
-async function loadUserProfile() {
+function updateThemeDropdown() {
+    elements.themeOptions.forEach(option => {
+        const isActive = option.dataset.theme === CONFIG.themes[state.currentTheme];
+        option.classList.toggle('active', isActive);
+    });
+}
+
+function toggleTheme() {
+    state.currentTheme = (state.currentTheme + 1) % CONFIG.themes.length;
+    applyTheme();
+    updateThemeIcon();
+    updateThemeDropdown();
+}
+
+function selectTheme(themeName) {
+    state.currentTheme = CONFIG.themes.indexOf(themeName);
+    applyTheme();
+    updateThemeIcon();
+    updateThemeDropdown();
+    hideThemeDropdown();
+}
+
+function showThemeDropdown() {
+    elements.themeDropdown.classList.add('show');
+    document.addEventListener('click', handleOutsideClick);
+}
+
+function hideThemeDropdown() {
+    elements.themeDropdown.classList.remove('show');
+    document.removeEventListener('click', handleOutsideClick);
+}
+
+function handleOutsideClick(e) {
+    if (!elements.themeDropdown.contains(e.target) && !elements.themeToggle.contains(e.target)) {
+        hideThemeDropdown();
+    }
+}
+
+// URL parameter handling
+function handleUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get('page');
+    
+    if (page === 'about') {
+        setTimeout(() => scrollToSection('about-section'), 100);
+    } else if (page === 'repo') {
+        setTimeout(() => scrollToSection('repo-section'), 100);
+    }
+}
+
+function scrollToSection(id) {
+    const element = document.getElementById(id);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// User data loading
+async function loadUserData() {
     try {
-        const response = await fetch(`${GITHUB_API_BASE}/users/${GITHUB_USERNAME}`);
-        
-        if (!response.ok) {
-            throw new Error(`GitHub API error: ${response.status}`);
-        }
+        const response = await fetch(`${CONFIG.apiBase}/users/${CONFIG.username}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         
         const userData = await response.json();
-        updateUserProfile(userData);
+        updateUserStats(userData);
+        updateAvatar(userData);
     } catch (error) {
-        console.error('Error loading user profile:', error);
-        showErrorMessage('Failed to load user profile');
+        console.error('Error loading user data:', error);
+        // Use fallback values
+        updateUserStats({ public_repos: 0, followers: 0, following: 0 });
     }
 }
 
-function updateUserProfile(userData) {
-    // Update avatar
+function updateUserStats(userData) {
+    animateCounter(elements.repoCount, userData.public_repos || 0);
+    animateCounter(elements.followerCount, userData.followers || 0);
+    animateCounter(elements.followingCount, userData.following || 0);
+}
+
+function updateAvatar(userData) {
     if (userData.avatar_url) {
-        elementsCache.userAvatar.src = userData.avatar_url;
-        elementsCache.userAvatar.alt = userData.name || userData.login;
-    }
-    
-    // Update bio
-    if (userData.bio) {
-        elementsCache.userBio.textContent = userData.bio;
-    }
-    
-    // Update stats with animation
-    animateCounter(elementsCache.publicRepos, userData.public_repos);
-    animateCounter(elementsCache.followers, userData.followers);
-    animateCounter(elementsCache.following, userData.following);
-    
-    // Update about description
-    if (userData.bio) {
-        elementsCache.aboutDescription.innerHTML = `
-            ${userData.bio} <br><br>
-            Welcome to my GitHub profile! Here you'll find a collection of my projects, 
-            ranging from experimental ideas to production-ready applications. 
-            Feel free to explore and don't hesitate to reach out if you have any questions!
-        `;
+        elements.userAvatar.src = userData.avatar_url;
+        elements.userAvatar.alt = userData.name || userData.login || 'Runarok Hrafn';
     }
 }
 
-function animateCounter(element, targetValue) {
-    const duration = 2000; // 2 seconds
+function animateCounter(element, target) {
+    const duration = 2000;
+    const start = performance.now();
     const startValue = 0;
-    const startTime = performance.now();
     
-    function updateCounter(currentTime) {
-        const elapsed = currentTime - startTime;
+    function update(currentTime) {
+        const elapsed = currentTime - start;
         const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 4);
+        const current = Math.floor(startValue + (target - startValue) * eased);
         
-        // Easing function for smooth animation
-        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-        const currentValue = Math.floor(startValue + (targetValue - startValue) * easeOutQuart);
-        
-        element.textContent = currentValue.toLocaleString();
+        element.textContent = current.toLocaleString();
         
         if (progress < 1) {
-            requestAnimationFrame(updateCounter);
+            requestAnimationFrame(update);
         }
     }
     
-    requestAnimationFrame(updateCounter);
+    requestAnimationFrame(update);
 }
 
-// Repository Loading and Management
-async function loadRepositories(page = 1) {
-    if (isLoading) return;
+// Repository loading
+async function loadRepositories() {
+    if (state.isLoading) return;
     
-    isLoading = true;
-    showLoading(page === 1);
+    state.isLoading = true;
+    showLoading();
     
     try {
-        const response = await fetch(
-            `${GITHUB_API_BASE}/users/${GITHUB_USERNAME}/repos?per_page=${REPOS_PER_PAGE}&page=${page}&sort=updated`
-        );
+        let allRepos = [];
+        let page = 1;
+        const maxPages = 10; // Prevent excessive API calls
         
-        if (!response.ok) {
-            throw new Error(`GitHub API error: ${response.status}`);
+        while (page <= maxPages) {
+            const response = await fetch(
+                `${CONFIG.apiBase}/users/${CONFIG.username}/repos?per_page=100&page=${page}&sort=updated`
+            );
+            
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            
+            const repos = await response.json();
+            if (repos.length === 0) break;
+            
+            allRepos = [...allRepos, ...repos];
+            if (repos.length < 100) break;
+            page++;
         }
         
-        const repositories = await response.json();
+        state.allRepos = allRepos;
         
-        if (page === 1) {
-            allRepositories = repositories;
-        } else {
-            allRepositories = [...allRepositories, ...repositories];
-        }
+        // Detect GitHub Pages
+        await detectGitHubPages();
         
-        // Check if there are more repositories
-        hasMoreRepos = repositories.length === REPOS_PER_PAGE;
-        
-        // Update language filter options
+        // Update language filter
         updateLanguageFilter();
         
-        // Apply current filters and display
+        // Apply filters and display
         applyFilters();
         
     } catch (error) {
         console.error('Error loading repositories:', error);
-        showErrorMessage('Failed to load repositories');
+        showError('Failed to load repositories. Please try again later.');
     } finally {
-        isLoading = false;
+        state.isLoading = false;
         hideLoading();
+    }
+}
+
+async function detectGitHubPages() {
+    const batchSize = 5;
+    const batches = [];
+    
+    for (let i = 0; i < state.allRepos.length; i += batchSize) {
+        batches.push(state.allRepos.slice(i, i + batchSize));
+    }
+    
+    for (const batch of batches) {
+        const promises = batch.map(async (repo) => {
+            try {
+                const response = await fetch(`${CONFIG.apiBase}/repos/${CONFIG.username}/${repo.name}/pages`);
+                if (response.ok) {
+                    const pagesData = await response.json();
+                    repo.pages_url = pagesData.html_url;
+                    repo.has_pages = true;
+                } else {
+                    repo.has_pages = false;
+                }
+            } catch (error) {
+                repo.has_pages = false;
+            }
+            return repo;
+        });
+        
+        await Promise.allSettled(promises);
+        
+        // Small delay between batches
+        if (batch !== batches[batches.length - 1]) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
     }
 }
 
 function updateLanguageFilter() {
     const languages = new Set();
-    allRepositories.forEach(repo => {
-        if (repo.language) {
-            languages.add(repo.language);
-        }
+    state.allRepos.forEach(repo => {
+        if (repo.language) languages.add(repo.language);
     });
     
-    const sortedLanguages = Array.from(languages).sort();
-    const currentValue = elementsCache.languageFilter.value;
+    const currentValue = elements.languageFilter.value;
+    elements.languageFilter.innerHTML = '<option value="">All Languages</option>';
     
-    elementsCache.languageFilter.innerHTML = '<option value="">All Languages</option>';
-    
-    sortedLanguages.forEach(language => {
+    Array.from(languages).sort().forEach(language => {
         const option = document.createElement('option');
         option.value = language;
         option.textContent = language;
-        elementsCache.languageFilter.appendChild(option);
+        elements.languageFilter.appendChild(option);
     });
     
-    // Restore previous selection
-    elementsCache.languageFilter.value = currentValue;
+    elements.languageFilter.value = currentValue;
 }
 
 function applyFilters() {
-    const searchTerm = elementsCache.searchInput.value.toLowerCase();
-    const selectedLanguage = elementsCache.languageFilter.value;
-    const sortBy = elementsCache.sortBy.value;
+    const searchTerm = elements.searchInput.value.toLowerCase().trim();
+    const selectedLanguage = elements.languageFilter.value;
+    const sortBy = elements.sortFilter.value;
+    const order = elements.orderFilter.value;
     
     // Filter repositories
-    filteredRepositories = allRepositories.filter(repo => {
+    state.filteredRepos = state.allRepos.filter(repo => {
         const matchesSearch = !searchTerm || 
             repo.name.toLowerCase().includes(searchTerm) || 
-            (repo.description && repo.description.toLowerCase().includes(searchTerm));
+            (repo.description && repo.description.toLowerCase().includes(searchTerm)) ||
+            (repo.topics && repo.topics.some(topic => topic.toLowerCase().includes(searchTerm)));
         
         const matchesLanguage = !selectedLanguage || repo.language === selectedLanguage;
         
@@ -233,106 +329,195 @@ function applyFilters() {
     });
     
     // Sort repositories
-    sortRepositories(sortBy);
+    state.filteredRepos.sort((a, b) => {
+        let comparison = 0;
+        
+        switch (sortBy) {
+            case 'name':
+                comparison = a.name.localeCompare(b.name);
+                break;
+            case 'stars':
+                comparison = b.stargazers_count - a.stargazers_count;
+                break;
+            case 'created':
+                comparison = new Date(b.created_at) - new Date(a.created_at);
+                break;
+            case 'updated':
+            default:
+                comparison = new Date(b.updated_at) - new Date(a.updated_at);
+                break;
+        }
+        
+        return order === 'asc' ? comparison : -comparison;
+    });
+    
+    // Calculate pagination
+    state.totalPages = Math.ceil(state.filteredRepos.length / CONFIG.reposPerPage);
+    state.currentPage = Math.min(state.currentPage, state.totalPages || 1);
     
     // Display repositories
     displayRepositories();
     
-    // Update load more button visibility
-    updateLoadMoreButton();
-}
-
-function sortRepositories(sortBy) {
-    filteredRepositories.sort((a, b) => {
-        switch (sortBy) {
-            case 'name':
-                return a.name.localeCompare(b.name);
-            case 'stars':
-                return b.stargazers_count - a.stargazers_count;
-            case 'created':
-                return new Date(b.created_at) - new Date(a.created_at);
-            case 'updated':
-            default:
-                return new Date(b.updated_at) - new Date(a.updated_at);
-        }
-    });
+    // Update pagination
+    updatePagination();
+    
+    // Update clear search button
+    elements.clearSearch.style.display = searchTerm ? 'block' : 'none';
 }
 
 function displayRepositories() {
-    if (filteredRepositories.length === 0) {
-        elementsCache.reposGrid.innerHTML = `
+    if (state.filteredRepos.length === 0) {
+        elements.repoGrid.innerHTML = `
             <div class="no-repos">
-                <i class="fas fa-search" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 16px;"></i>
-                <h3 style="color: var(--text-secondary); margin-bottom: 8px;">No repositories found</h3>
-                <p style="color: var(--text-muted);">Try adjusting your search or filter criteria</p>
+                <i class="fas fa-search"></i>
+                <h3>No repositories found</h3>
+                <p>Try adjusting your search or filter criteria</p>
             </div>
         `;
         return;
     }
     
-    const repoCards = filteredRepositories.map(repo => createRepositoryCard(repo)).join('');
-    elementsCache.reposGrid.innerHTML = repoCards;
+    const startIndex = (state.currentPage - 1) * CONFIG.reposPerPage;
+    const endIndex = startIndex + CONFIG.reposPerPage;
+    const pageRepos = state.filteredRepos.slice(startIndex, endIndex);
     
-    // Add click events to repository cards
-    addRepositoryCardEvents();
+    elements.repoGrid.innerHTML = pageRepos.map(createRepoCard).join('');
+    elements.repoGrid.classList.toggle('list-view', state.currentView === 'list');
+    
+    // Add click events
+    addRepoCardEvents();
 }
 
-function createRepositoryCard(repo) {
-    const updatedDate = formatRelativeTime(repo.updated_at);
+function createRepoCard(repo) {
     const description = repo.description || 'No description available';
-    const languageColor = getLanguageColor(repo.language);
+    const languageColor = LANGUAGE_COLORS[repo.language] || '#6e7681';
+    const updatedDate = formatRelativeTime(repo.updated_at);
+    
+    // Create badges
+    let badges = `<span class="repo-badge ${repo.private ? 'private' : 'public'}">${repo.private ? 'Private' : 'Public'}</span>`;
+    if (repo.has_pages) {
+        badges += `<span class="repo-badge pages">Pages</span>`;
+    }
+    
+    // Create links
+    let links = `<a href="${repo.html_url}" target="_blank" class="repo-link" onclick="event.stopPropagation()">
+        <i class="fab fa-github"></i> View Code
+    </a>`;
+    
+    if (repo.has_pages && repo.pages_url) {
+        links += `<a href="${repo.pages_url}" target="_blank" class="repo-link" onclick="event.stopPropagation()">
+            <i class="fas fa-external-link-alt"></i> Live Site
+        </a>`;
+    }
     
     return `
-        <div class="repo-card" data-repo-url="${repo.html_url}">
+        <div class="repo-card" data-url="${repo.html_url}">
             <div class="repo-header">
-                <a href="${repo.html_url}" target="_blank" class="repo-title" onclick="event.stopPropagation()">
+                <h3 class="repo-title">
                     <i class="fas fa-code-branch"></i>
                     ${repo.name}
-                </a>
-                <span class="repo-visibility ${repo.private ? 'private' : 'public'}">
-                    ${repo.private ? 'Private' : 'Public'}
-                </span>
+                </h3>
+                <div class="repo-badges">${badges}</div>
             </div>
             
             <p class="repo-description">${description}</p>
             
+            <div class="repo-links">${links}</div>
+            
             <div class="repo-meta">
                 ${repo.language ? `
-                    <span class="repo-language">
+                    <span>
                         <span class="language-dot" style="background-color: ${languageColor}"></span>
                         ${repo.language}
                     </span>
                 ` : ''}
-                
-                <span class="repo-stars">
-                    <i class="fas fa-star"></i>
-                    ${repo.stargazers_count.toLocaleString()}
-                </span>
-                
-                <span class="repo-forks">
-                    <i class="fas fa-code-branch"></i>
-                    ${repo.forks_count.toLocaleString()}
-                </span>
-                
-                <span class="repo-updated">
-                    Updated ${updatedDate}
-                </span>
+                <span><i class="fas fa-star"></i> ${repo.stargazers_count.toLocaleString()}</span>
+                <span><i class="fas fa-code-branch"></i> ${repo.forks_count.toLocaleString()}</span>
+                <span class="repo-updated">Updated ${updatedDate}</span>
             </div>
         </div>
     `;
 }
 
-function addRepositoryCardEvents() {
-    const repoCards = document.querySelectorAll('.repo-card');
-    repoCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const repoUrl = card.dataset.repoUrl;
-            window.open(repoUrl, '_blank');
+function addRepoCardEvents() {
+    document.querySelectorAll('.repo-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('a')) return;
+            window.open(card.dataset.url, '_blank');
         });
     });
 }
 
-// Utility Functions
+function updatePagination() {
+    if (state.totalPages <= 1) {
+        elements.pagination.style.display = 'none';
+        return;
+    }
+    
+    elements.pagination.style.display = 'flex';
+    
+    // Update info
+    const startItem = (state.currentPage - 1) * CONFIG.reposPerPage + 1;
+    const endItem = Math.min(state.currentPage * CONFIG.reposPerPage, state.filteredRepos.length);
+    elements.paginationInfo.textContent = `${startItem}-${endItem} of ${state.filteredRepos.length} repositories`;
+    
+    // Update buttons
+    elements.prevBtn.disabled = state.currentPage === 1;
+    elements.nextBtn.disabled = state.currentPage === state.totalPages;
+    
+    // Update page numbers
+    updatePageNumbers();
+}
+
+function updatePageNumbers() {
+    const maxVisible = 5;
+    let startPage = Math.max(1, state.currentPage - Math.floor(maxVisible / 2));
+    let endPage = Math.min(state.totalPages, startPage + maxVisible - 1);
+    
+    if (endPage - startPage < maxVisible - 1) {
+        startPage = Math.max(1, endPage - maxVisible + 1);
+    }
+    
+    let html = '';
+    
+    // First page and ellipsis
+    if (startPage > 1) {
+        html += createPageNumber(1);
+        if (startPage > 2) html += '<span class="page-number">...</span>';
+    }
+    
+    // Page numbers
+    for (let i = startPage; i <= endPage; i++) {
+        html += createPageNumber(i);
+    }
+    
+    // Last page and ellipsis
+    if (endPage < state.totalPages) {
+        if (endPage < state.totalPages - 1) html += '<span class="page-number">...</span>';
+        html += createPageNumber(state.totalPages);
+    }
+    
+    elements.pageNumbers.innerHTML = html;
+    
+    // Add click events
+    elements.pageNumbers.querySelectorAll('.page-number[data-page]').forEach(btn => {
+        btn.addEventListener('click', () => goToPage(parseInt(btn.dataset.page)));
+    });
+}
+
+function createPageNumber(pageNum) {
+    const isActive = pageNum === state.currentPage;
+    return `<span class="page-number ${isActive ? 'active' : ''}" data-page="${pageNum}">${pageNum}</span>`;
+}
+
+function goToPage(page) {
+    state.currentPage = page;
+    displayRepositories();
+    updatePagination();
+    scrollToSection('repo-section');
+}
+
+// Utility functions
 function formatRelativeTime(dateString) {
     const date = new Date(dateString);
     const now = new Date();
@@ -357,139 +542,162 @@ function formatRelativeTime(dateString) {
     return 'Just now';
 }
 
-function getLanguageColor(language) {
-    const colors = {
-        JavaScript: '#f1e05a',
-        TypeScript: '#2b7489',
-        Python: '#3572A5',
-        Java: '#b07219',
-        'C++': '#f34b7d',
-        'C#': '#239120',
-        PHP: '#4F5D95',
-        Ruby: '#701516',
-        Go: '#00ADD8',
-        Rust: '#dea584',
-        Swift: '#ffac45',
-        Kotlin: '#F18E33',
-        Dart: '#00B4AB',
-        HTML: '#e34c26',
-        CSS: '#1572B6',
-        Vue: '#4FC08D',
-        React: '#61DAFB',
-        Angular: '#DD0031'
-    };
-    
-    return colors[language] || '#6e7681';
-}
-
-function showLoading(isInitial = false) {
-    if (isInitial) {
-        elementsCache.loadingContainer.style.display = 'flex';
-    } else {
-        elementsCache.loadMoreBtn.innerHTML = `
-            <div class="loading-spinner" style="width: 20px; height: 20px; margin-right: 8px;"></div>
-            <span>Loading...</span>
-        `;
-    }
+function showLoading() {
+    elements.loading.style.display = 'flex';
 }
 
 function hideLoading() {
-    elementsCache.loadingContainer.style.display = 'none';
-    elementsCache.loadMoreBtn.innerHTML = `
-        <span>Load More</span>
-        <i class="fas fa-chevron-down"></i>
-    `;
+    elements.loading.style.display = 'none';
 }
 
-function updateLoadMoreButton() {
-    if (hasMoreRepos && filteredRepositories.length > 0) {
-        elementsCache.loadMoreContainer.style.display = 'block';
-    } else {
-        elementsCache.loadMoreContainer.style.display = 'none';
-    }
-}
-
-function showErrorMessage(message) {
-    elementsCache.reposGrid.innerHTML = `
-        <div class="error-message" style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
-            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--error-color); margin-bottom: 16px;"></i>
-            <h3 style="color: var(--text-secondary); margin-bottom: 8px;">Oops! Something went wrong</h3>
-            <p style="color: var(--text-muted); margin-bottom: 24px;">${message}</p>
-            <button onclick="location.reload()" class="load-more-btn" style="background: var(--error-color); border-color: var(--error-color);">
-                <i class="fas fa-refresh"></i>
-                <span>Retry</span>
+function showError(message) {
+    elements.repoGrid.innerHTML = `
+        <div class="no-repos">
+            <i class="fas fa-exclamation-triangle" style="color: var(--error);"></i>
+            <h3>Oops! Something went wrong</h3>
+            <p>${message}</p>
+            <button onclick="location.reload()" class="about-btn" style="margin-top: 20px;">
+                <i class="fas fa-refresh"></i> Try Again
             </button>
         </div>
     `;
 }
 
-// Event Listeners
+function clearSearch() {
+    elements.searchInput.value = '';
+    applyFilters();
+    elements.searchInput.focus();
+}
+
+function setView(view) {
+    state.currentView = view;
+    elements.viewBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.view === view);
+    });
+    displayRepositories();
+}
+
+// Event listeners
 function setupEventListeners() {
     // Theme toggle
-    elementsCache.themeToggle.addEventListener('click', toggleTheme);
-    
-    // Search functionality with debouncing
-    let searchTimeout;
-    elementsCache.searchInput.addEventListener('input', () => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(applyFilters, 300);
+    elements.themeToggle.addEventListener('click', (e) => {
+        if (e.shiftKey) {
+            e.preventDefault();
+            showThemeDropdown();
+        } else {
+            toggleTheme();
+        }
     });
     
-    // Filter changes
-    elementsCache.languageFilter.addEventListener('change', applyFilters);
-    elementsCache.sortBy.addEventListener('change', applyFilters);
+    // Theme dropdown
+    elements.themeDropdown.addEventListener('click', (e) => {
+        const option = e.target.closest('.theme-option');
+        if (option) selectTheme(option.dataset.theme);
+    });
     
-    // Load more repositories
-    elementsCache.loadMoreBtn.addEventListener('click', () => {
-        currentPage++;
-        loadRepositories(currentPage);
+    // Search
+    let searchTimeout;
+    elements.searchInput.addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            state.currentPage = 1;
+            applyFilters();
+        }, 300);
+    });
+    
+    // Clear search
+    elements.clearSearch.addEventListener('click', clearSearch);
+    
+    // Filters
+    [elements.languageFilter, elements.sortFilter, elements.orderFilter].forEach(filter => {
+        filter.addEventListener('change', () => {
+            state.currentPage = 1;
+            applyFilters();
+        });
+    });
+    
+    // View toggles
+    elements.viewBtns.forEach(btn => {
+        btn.addEventListener('click', () => setView(btn.dataset.view));
+    });
+    
+    // Pagination
+    elements.prevBtn.addEventListener('click', () => {
+        if (state.currentPage > 1) goToPage(state.currentPage - 1);
+    });
+    
+    elements.nextBtn.addEventListener('click', () => {
+        if (state.currentPage < state.totalPages) goToPage(state.currentPage + 1);
+    });
+    
+    // Scroll to top
+    elements.scrollTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     
     // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
-        // Ctrl/Cmd + K to focus search
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-            e.preventDefault();
-            elementsCache.searchInput.focus();
-        }
+        if (e.target.matches('input, textarea, select')) return;
         
-        // T to toggle theme
-        if (e.key === 't' && !e.ctrlKey && !e.metaKey && !isInputFocused()) {
-            toggleTheme();
+        switch (e.key.toLowerCase()) {
+            case 'k':
+                if (e.ctrlKey || e.metaKey) {
+                    e.preventDefault();
+                    elements.searchInput.focus();
+                }
+                break;
+            case 't':
+                if (e.shiftKey) {
+                    showThemeDropdown();
+                } else {
+                    toggleTheme();
+                }
+                break;
+            case 'escape':
+                hideThemeDropdown();
+                break;
+            case '/':
+                e.preventDefault();
+                elements.searchInput.focus();
+                break;
+        }
+    });
+    
+    // Smooth scrolling for anchor links
+    document.addEventListener('click', (e) => {
+        if (e.target.matches('a[href^="#"]')) {
+            e.preventDefault();
+            const target = document.querySelector(e.target.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
     });
 }
 
-function isInputFocused() {
-    const activeElement = document.activeElement;
-    return activeElement && (
-        activeElement.tagName === 'INPUT' || 
-        activeElement.tagName === 'TEXTAREA' || 
-        activeElement.tagName === 'SELECT'
-    );
-}
-
-// Scroll Effects
+// Scroll effects
 function setupScrollEffects() {
     let ticking = false;
     
     function updateScrollEffects() {
         const scrollY = window.scrollY;
-        const nav = document.querySelector('.nav-glass');
         
-        // Navbar blur effect
-        if (scrollY > 100) {
-            nav.style.background = 'rgba(255, 255, 255, 0.1)';
-            nav.style.backdropFilter = 'blur(25px)';
+        // Show/hide scroll to top
+        elements.scrollTop.style.display = scrollY > 300 ? 'flex' : 'none';
+        
+        // Navbar effect
+        const nav = document.querySelector('.nav-glass');
+        if (scrollY > 50) {
+            nav.style.background = 'var(--glass-bg-strong)';
+            nav.style.backdropFilter = 'blur(30px)';
         } else {
             nav.style.background = '';
             nav.style.backdropFilter = '';
         }
         
-        // Parallax effect for hero orbs
-        const orbs = document.querySelectorAll('.glass-orb');
-        orbs.forEach((orb, index) => {
-            const speed = 0.5 + (index * 0.1);
+        // Parallax orbs
+        document.querySelectorAll('.glass-orb').forEach((orb, index) => {
+            const speed = 0.3 + (index * 0.1);
             orb.style.transform = `translateY(${scrollY * speed}px)`;
         });
         
@@ -504,78 +712,17 @@ function setupScrollEffects() {
     });
 }
 
-// Smooth scrolling for anchor links
-document.addEventListener('click', (e) => {
-    if (e.target.matches('a[href^="#"]')) {
-        e.preventDefault();
-        const target = document.querySelector(e.target.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    }
+// Error handling
+window.addEventListener('unhandledrejection', (e) => {
+    console.error('Unhandled promise rejection:', e.reason);
+    e.preventDefault();
 });
 
-// Performance optimizations
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Intersection Observer for animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.animationPlayState = 'running';
-        }
-    });
-}, observerOptions);
-
-// Observe elements for animations
-document.addEventListener('DOMContentLoaded', () => {
-    const animatedElements = document.querySelectorAll('.repo-card, .about-content');
-    animatedElements.forEach(el => observer.observe(el));
+window.addEventListener('error', (e) => {
+    console.error('JavaScript error:', e.error);
 });
 
-// Error handling for failed requests
-window.addEventListener('unhandledrejection', (event) => {
-    console.error('Unhandled promise rejection:', event.reason);
-    event.preventDefault();
-});
-
-// Service Worker registration for offline support (optional)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('SW registered: ', registration);
-            })
-            .catch(registrationError => {
-                console.log('SW registration failed: ', registrationError);
-            });
-    });
-}
-
-// Export functions for testing (if needed)
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        formatRelativeTime,
-        getLanguageColor,
-        applyFilters,
-        sortRepositories
-    };
+// Debug (remove in production)
+if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    window.debug = { state, elements, CONFIG };
 }
