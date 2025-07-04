@@ -1,0 +1,111 @@
+/* Theme Variables */
+
+/* Dark Theme (Default) */
+.theme-dark {
+    --bg-primary: #000000;
+    --bg-secondary: #0a0a0a;
+    --bg-tertiary: #1a1a1a;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-bg-strong: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --text-muted: rgba(255, 255, 255, 0.5);
+    --accent-primary: #007AFF;
+    --accent-secondary: #5856D6;
+    --success: #34C759;
+    --warning: #FF9F0A;
+    --error: #FF3B30;
+    background: radial-gradient(ellipse at top, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+}
+
+/* Light Theme */
+.theme-light {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #e9ecef;
+    --glass-bg: rgba(0, 0, 0, 0.02);
+    --glass-bg-strong: rgba(0, 0, 0, 0.05);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --text-primary: #1a1a1a;
+    --text-secondary: rgba(26, 26, 26, 0.7);
+    --text-muted: rgba(26, 26, 26, 0.5);
+    --accent-primary: #007AFF;
+    --accent-secondary: #5856D6;
+    --success: #34C759;
+    --warning: #FF9F0A;
+    --error: #FF3B30;
+    background: radial-gradient(ellipse at top, #f8fafc 0%, #e2e8f0 50%, #cbd5e0 100%);
+}
+
+/* Purple Theme */
+.theme-purple {
+    --bg-primary: #1a0033;
+    --bg-secondary: #2d1b69;
+    --bg-tertiary: #3b2a7a;
+    --glass-bg: rgba(139, 69, 255, 0.1);
+    --glass-bg-strong: rgba(139, 69, 255, 0.15);
+    --glass-border: rgba(139, 69, 255, 0.2);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --accent-primary: #8B45FF;
+    --accent-secondary: #DA44BB;
+    --success: #34C759;
+    --warning: #FF9F0A;
+    --error: #FF3B30;
+    background: radial-gradient(ellipse at top, #667eea 0%, #764ba2 50%, #8b45ff 100%);
+}
+
+/* Ocean Theme */
+.theme-ocean {
+    --bg-primary: #001122;
+    --bg-secondary: #003366;
+    --bg-tertiary: #004488;
+    --glass-bg: rgba(0, 150, 255, 0.1);
+    --glass-bg-strong: rgba(0, 150, 255, 0.15);
+    --glass-border: rgba(0, 150, 255, 0.2);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --accent-primary: #0096FF;
+    --accent-secondary: #00D4AA;
+    --success: #34C759;
+    --warning: #FF9F0A;
+    --error: #FF3B30;
+    background: radial-gradient(ellipse at top, #2196F3 0%, #21CBF3 50%, #00BCD4 100%);
+}
+
+/* Forest Theme */
+.theme-forest {
+    --bg-primary: #0d1f0d;
+    --bg-secondary: #1a3d1a;
+    --bg-tertiary: #2d5a2d;
+    --glass-bg: rgba(34, 197, 94, 0.1);
+    --glass-bg-strong: rgba(34, 197, 94, 0.15);
+    --glass-border: rgba(34, 197, 94, 0.2);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --accent-primary: #22c55e;
+    --accent-secondary: #10b981;
+    --success: #34C759;
+    --warning: #FF9F0A;
+    --error: #FF3B30;
+    background: radial-gradient(ellipse at top, #166534 0%, #15803d 50%, #14532d 100%);
+}
+
+/* Glassmorphism Utils */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--blur-strength));
+    -webkit-backdrop-filter: blur(var(--blur-strength));
+    border: 1px solid var(--glass-border);
+}
+
+.glass-strong {
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+}
